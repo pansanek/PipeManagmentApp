@@ -1,0 +1,12 @@
+﻿@model Pipe
+
+<h1>Удалить трубу</h1>
+
+<p>Вы уверены, что хотите удалить трубу № @Model.number?</p>
+
+<form asp-action="DeleteConfirmed">
+    <div class="form-group">
+        <input type="submit" value="Удалить" class="btn btn-danger" />
+        <a asp-action="List" class="btn btn-secondary">Отмена</a>
+    </div>
+</form>

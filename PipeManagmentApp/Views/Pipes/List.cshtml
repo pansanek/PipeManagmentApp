@@ -1,27 +1,60 @@
 ﻿@model PipesListViewModel
-<h1>
-    Все трубы
-</h1>
-<table class="table">
-    <thead>
-        <tr>
-            <th>№ Трубы</th>
-            <th>Качество</th>
-            <th>Марка стали</th>
-            <th>Размеры</th>
-            <th>Вес</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var pipe in Model.allPipes)
-        {
-            <tr class="@(pipe.quality == "Брак" ? "text-danger" : "")">
-                <td>@pipe.number</td>
-                <td>@pipe.quality</td>
-                <td>@pipe.steelGrade</td>
-                <td>@pipe.dimensions</td>
-                <td>@pipe.weight</td>
-            </tr>
-        }
-    </tbody>
-</table>
+
+<h1>Все трубы</h1>
+
+<div class="row">
+    @foreach (var pipe in Model.allPipes)
+    {
+        <div class="col-md-4 mb-4">
+            <div class="card @(pipe.quality == "Брак" ? "border-danger" : "border-primary")">
+                <div class="card-header @(pipe.quality == "Брак" ? "text-danger" : "")">
+                    Труба № @pipe.number
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Марка стали: @pipe.steelGrade</h5>
+                    <p class="card-text">
+                        <strong>Качество:</strong> @pipe.quality <br />
+                        <strong>Размеры:</strong> @pipe.dimensions <br />
+                        <strong>Вес:</strong> @pipe.weight кг
+                    </p>
+                </div>
+                <div class="card-footer">
+                    @if (pipe.quality == "Брак")
+                    {
+                        <span class="text-danger">Труба признана бракованной</span>
+                    }
+                    else
+                    {
+                        <span class="text-success">Годная труба</span>
+                    }
+                    <a href="@Url.Action("Edit", "Pipes", new { id = pipe.id })" class="btn btn-warning btn-sm">Редактировать</a>
+                    <a href="@Url.Action("Delete", "Pipes", new { id = pipe.id })" class="btn btn-danger btn-sm">Удалить</a>
+
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<!-- Закрепленная строка с итоговыми данными -->
+<div class="fixed-bottom bg-light p-3 border-top">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <strong>Общее количество труб:</strong> @Model.totalPipes
+            </div>
+            <div class="col">
+                <strong>Годных труб:</strong> @Model.goodPipes
+            </div>
+            <div class="col">
+                <strong>Бракованных труб:</strong> @Model.defectivePipes
+            </div>
+            <div class="col">
+                <strong>Общий вес:</strong> @Model.totalWeight кг
+            </div>
+            <div class="col-md-12 text-right">
+                <a href="@Url.Action("Create", "Pipes")" class="btn btn-primary">Добавить трубу</a>
+            </div>
+        </div>
+    </div>
+</div>

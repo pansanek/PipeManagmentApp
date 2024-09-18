@@ -1,0 +1,34 @@
+﻿@model Pipe
+
+<h1>@ViewBag.Title</h1>
+
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <label asp-for="number" class="control-label"></label>
+        <input asp-for="number" class="form-control" />
+        <span asp-validation-for="number" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="quality" class="control-label"></label>
+        <input asp-for="quality" class="form-control" />
+        <span asp-validation-for="quality" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="steelGrade" class="control-label"></label>
+        <input asp-for="steelGrade" class="form-control" />
+        <span asp-validation-for="steelGrade" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="dimensions" class="control-label"></label>
+        <input asp-for="dimensions" class="form-control" />
+        <span asp-validation-for="dimensions" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="weight" class="control-label"></label>
+        <input asp-for="weight" class="form-control" />
+        <span asp-validation-for="weight" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Сохранить" class="btn btn-primary" />
+    </div>
+</form>
