@@ -2,7 +2,7 @@
 
 namespace PipeManagmentApp.Data.Interfaces
 {
-    public interface IPackages
+    public interface IAllPackages
     {
         IEnumerable<Package> AllPackages { get; }
         void createPackage(Package package);

@@ -1,0 +1,27 @@
+﻿@model PipesListViewModel
+<h1>
+    Все трубы
+</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>№ Трубы</th>
+            <th>Качество</th>
+            <th>Марка стали</th>
+            <th>Размеры</th>
+            <th>Вес</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var pipe in Model.allPipes)
+        {
+            <tr class="@(pipe.quality == "Брак" ? "text-danger" : "")">
+                <td>@pipe.number</td>
+                <td>@pipe.quality</td>
+                <td>@pipe.steelGrade</td>
+                <td>@pipe.dimensions</td>
+                <td>@pipe.weight</td>
+            </tr>
+        }
+    </tbody>
+</table>

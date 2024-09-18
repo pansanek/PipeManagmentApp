@@ -4,16 +4,20 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using PipeManagmentApp.Data.Interfaces;
+using PipeManagmentApp.Data.Mocks;
 
-namespace PipeManagment
+namespace PipeManagmentApp
 {
     public class Startup
     {
         
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMvc(option => option.EnableEndpointRouting = false);
+            services.AddTransient<IAllPipes, MockPipes>();
+            services.AddTransient<IAllPackages, MockPackages>();
            
-            services.AddMvc(options => options.EnableEndpointRouting = false);
 
         }
 
@@ -23,9 +27,13 @@ namespace PipeManagment
             app.UseDeveloperExceptionPage();
             app.UseStatusCodePages();
             app.UseStaticFiles();
-            app.UseSession();
-            app.UseMvcWithDefaultRoute();
-           
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                    name: "default",
+                    template: "{controller=Home}/{action=Index}/{id?}");
+            });
+
         }
     }
 }

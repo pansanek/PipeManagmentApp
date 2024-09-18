@@ -3,7 +3,7 @@ using PipeManagmentApp.Data.Models;
 
 namespace PipeManagmentApp.Data.Mocks
 {
-    public class MockPackages : IPackages
+    public class MockPackages : IAllPackages
     {
         private List<Package> _allPackages;
 

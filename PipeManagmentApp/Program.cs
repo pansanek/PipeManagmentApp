@@ -1,8 +1,7 @@
 
 using Microsoft.AspNetCore;
-using Microsoft.AspNetCore.Hosting;
 
-namespace PipeManagment
+namespace PipeManagmentApp
 {
     public class Program
     {

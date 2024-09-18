@@ -1,7 +1,7 @@
 ﻿using PipeManagmentApp.Data.Models;
 namespace PipeManagmentApp.Data.Interfaces
 {
-    public interface IPipes
+    public interface IAllPipes
     {
         IEnumerable<Pipe> AllPipes { get; }
         void createPipe(Pipe pipe);
