@@ -153,7 +153,7 @@ namespace PipeManagmentApp.Controllers
 
 
         [HttpPost]
-        public IActionResult CreatePackage(List<int> selectedPipes)
+        public IActionResult CreateBundle(List<int> selectedPipes)
         {
             if (selectedPipes == null || selectedPipes.Count < 2)
             {
@@ -161,7 +161,7 @@ namespace PipeManagmentApp.Controllers
                 return RedirectToAction("Index");
             }
 
-            return RedirectToAction("Create", "Packages", new { selectedPipes });
+            return RedirectToAction("Create", "Bundles", new { selectedPipes });
         }
     }
 }

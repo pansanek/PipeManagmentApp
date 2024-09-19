@@ -20,10 +20,10 @@ namespace PipeManagmentApp.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Package>()
+            modelBuilder.Entity<Bundle>()
                 .HasMany(p => p.pipes)
-                .WithOne(p => p.package)
-                .HasForeignKey(p => p.packageId);
+                .WithOne(p => p.bundle)
+                .HasForeignKey(p => p.bundleId);
 
             modelBuilder.Entity<Pipe>()
             .HasKey(p => p.id);
@@ -34,6 +34,6 @@ namespace PipeManagmentApp.Data
         }
 
         public DbSet<Pipe> Pipes { get; set; }
-        public DbSet<Package> Packages { get; set; }
+        public DbSet<Bundle> Bundles { get; set; }
     }
 }

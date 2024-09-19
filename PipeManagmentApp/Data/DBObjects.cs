@@ -15,26 +15,26 @@ namespace PipeManagmentApp.Data
                 );
             }
 
-            // Проверка, существует ли что-то в таблице Packages
-            if (!context.Packages.Any())
+            // Проверка, существует ли что-то в таблице Bundles
+            if (!context.Bundles.Any())
             {
-                context.Packages.AddRange(
-                    new Package
+                context.Bundles.AddRange(
+                    new Bundle
                     {
                         id = 1,
-                        packageNumber = 1001,
-                        packageDate = DateTime.UtcNow.AddDays(-2),
+                        bundleNumber = 1001,
+                        bundleDate = DateTime.UtcNow.AddDays(-2),
                         pipes = new List<Pipe>
                         {
                     new Pipe { id = 1, number = 1001, quality = "Годная", steelGrade = "A1", dimensions = "100x200", weight = 20.5 },
                     new Pipe { id = 2, number = 1002, quality = "Брак", steelGrade = "A2", dimensions = "120x250", weight = 25.0 }
                         }
                     },
-                    new Package
+                    new Bundle
                     {
                         id = 2,
-                        packageNumber = 1002,
-                        packageDate = DateTime.UtcNow.AddDays(-1),
+                        bundleNumber = 1002,
+                        bundleDate = DateTime.UtcNow.AddDays(-1),
                         pipes = new List<Pipe>
                         {
                     new Pipe { id = 3, number = 1003, quality = "Годная", steelGrade = "B1", dimensions = "150x300", weight = 30.0 }

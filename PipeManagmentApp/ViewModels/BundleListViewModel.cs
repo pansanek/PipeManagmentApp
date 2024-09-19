@@ -2,9 +2,9 @@
 
 namespace PipeManagmentApp.ViewModels
 {
-    public class PackageListViewModel
+    public class BundleListViewModel
     {
-        public IEnumerable<Package> allPackages { get; set; }
+        public IEnumerable<Bundle> allBundles { get; set; }
         
     }
 }

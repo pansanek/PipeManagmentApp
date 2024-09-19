@@ -13,17 +13,17 @@ namespace PipeManagmentApp.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Packages",
+                name: "Bundles",
                 columns: table => new
                 {
                     id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    packageNumber = table.Column<int>(type: "integer", nullable: false),
-                    packageDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    bundleNumber = table.Column<int>(type: "integer", nullable: false),
+                    bundleDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Packages", x => x.id);
+                    table.PrimaryKey("PK_Bundles", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
@@ -37,22 +37,23 @@ namespace PipeManagmentApp.Migrations
                     steelGrade = table.Column<string>(type: "text", nullable: false),
                     dimensions = table.Column<string>(type: "text", nullable: false),
                     weight = table.Column<double>(type: "double precision", nullable: false),
-                    packageId = table.Column<int>(type: "integer", nullable: true)
+                    bundleId = table.Column<int>(type: "integer", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Pipes", x => x.id);
                     table.ForeignKey(
-                        name: "FK_Pipes_Packages_packageId",
-                        column: x => x.packageId,
-                        principalTable: "Packages",
-                        principalColumn: "id");
+                        name: "FK_Pipes_Bundles_bundleId",
+                        column: x => x.bundleId,
+                        principalTable: "Bundles",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.SetNull);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Pipes_packageId",
+                name: "IX_Pipes_bundleId",
                 table: "Pipes",
-                column: "packageId");
+                column: "bundleId");
         }
 
         /// <inheritdoc />
@@ -62,7 +63,7 @@ namespace PipeManagmentApp.Migrations
                 name: "Pipes");
 
             migrationBuilder.DropTable(
-                name: "Packages");
+                name: "Bundles");
         }
     }
 }

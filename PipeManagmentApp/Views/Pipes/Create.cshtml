@@ -12,7 +12,10 @@
     <div class="form-group" style="margin-bottom: 20px;">
         <label asp-for="quality"></label>
         <div class="col-md-5">
-            <input asp-for="quality" class="form-control" />
+            <select asp-for="quality" class="form-control">
+                <option value="Брак">Брак</option>
+                <option value="Годное">Годное</option>
+            </select>
             <span asp-validation-for="quality" class="text-danger"></span>
         </div>
     </div>
@@ -27,7 +30,7 @@
     <div class="form-group" style="margin-bottom: 20px;">
         <label asp-for="dimensions"></label>
         <div class="col-md-5">
-            <input asp-for="dimensions" class="form-control" />
+            <input asp-for="dimensions" pattern="\d+x\d+" class="form-control" />
             <span asp-validation-for="dimensions" class="text-danger"></span>
         </div>
     </div>

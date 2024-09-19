@@ -27,7 +27,7 @@ namespace PipeManagmentApp
             services.AddDbContext<AppDbContext>(options =>
             options.UseNpgsql(_configuration.GetConnectionString("WebApiDatabase")));
             services.AddTransient<IAllPipes, PipeRepository>();
-            services.AddTransient<IAllPackages, PackageRepository>();
+            services.AddTransient<IAllBundles, BundleRepository>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddMemoryCache();
             services.AddSession();

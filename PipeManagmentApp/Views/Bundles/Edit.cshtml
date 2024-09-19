@@ -1,0 +1,58 @@
+﻿@model Bundle
+
+@{
+    ViewBag.Title = "Редактирование пакета";
+}
+
+<h1>@ViewBag.Title @Model.bundleNumber</h1>
+
+<form asp-action="Edit" method="post">
+    <div class="form-group" style="margin-bottom: 20px;">
+        <label asp-for="bundleNumber" class="control-label">№ Пакета</label>
+        <div class="col-md-5">
+            <input asp-for="bundleNumber" class="form-control" />
+            <span asp-validation-for="bundleNumber" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group" style="margin-bottom: 20px;">
+        <label asp-for="bundleDate" class="control-label">Дата создания пакета</label>
+        <div class="col-md-5">
+            <input asp-for="bundleDate" class="form-control" type="datetime-local" />
+            <span asp-validation-for="bundleDate" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group" style="margin-bottom: 20px;">
+        <label class="control-label">Трубы в пакете</label>
+        <div class="col-md-5">
+            <ul id="pipe-list">
+                @for (int i = 0; i < Model.pipes.Count; i++)
+                {
+                    <li>
+                        Труба №@Model.pipes[i].number (Марка стали: @Model.pipes[i].steelGrade, Вес: @Model.pipes[i].weight кг, Качество: @Model.pipes[i].quality)
+                        <button type="button" class="btn btn-danger btn-sm" onclick="removePipe(@Model.pipes[i].id)">Удалить</button>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+    <div class="form-group" style="margin-bottom: 20px;">
+        <label class="control-label">Добавить трубу из существующих</label>
+        <div class="col-md-5">
+            <select id="availablePipes" class="form-control" multiple>
+                @foreach (var pipe in ViewBag.AvailablePipes)
+                {
+                    <option value="@pipe.id">Труба №@pipe.number (Марка стали: @pipe.steelGrade, Вес: @pipe.weight кг)</option>
+                }
+            </select>
+            <button type="button" class="btn btn-primary" onclick="addPipes()">Добавить выбранные трубы</button>
+        </div>
+    </div>
+
+    <input type="hidden" id="removedPipes" name="removedPipes" />
+    <div class="form-group" style="margin-bottom: 20px;">
+        <input type="submit" value="Сохранить изменения" class="btn btn-primary" />
+        <a asp-action="Index" class="btn btn-secondary">Отмена</a>
+    </div>
+</form>

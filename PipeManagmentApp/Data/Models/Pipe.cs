@@ -13,12 +13,14 @@ namespace PipeManagmentApp.Data.Models
         public int number { get; set; }
         [Display(Name = "Введите качество трубы")]
         [Required(ErrorMessage = "Качество обязательно")]
+        [RegularExpression("^(Брак|Годное)$", ErrorMessage = "Допустимые значения: Брак или Годное")]
         public string quality { get; set; }
         [Display(Name = "Введите марку стали трубы")]
         [Required(ErrorMessage = "Марка стали обязательна")]
         public string steelGrade { get; set; }
 
         [Display(Name = "Введите размеры трубы")]
+        [RegularExpression(@"^\d+x\d+$", ErrorMessage = "Размеры должны быть в формате 'число'x'число', например, 300x500")]
         [Required(ErrorMessage = "Размеры обязательны")]
         public string dimensions { get; set; }
 
@@ -27,7 +29,7 @@ namespace PipeManagmentApp.Data.Models
         [Range(0.01, double.MaxValue, ErrorMessage = "Вес должен быть положительным числом")]
         public double weight { get; set; }
 
-        public int? packageId { get; set; }
-        public Package? package { get; set; }
+        public int? bundleId { get; set; }
+        public Bundle? bundle { get; set; }
     }
 }
