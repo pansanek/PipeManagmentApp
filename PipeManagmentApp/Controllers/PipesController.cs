@@ -152,6 +152,16 @@ namespace PipeManagmentApp.Controllers
         }
 
 
+        [HttpPost]
+        public IActionResult CreatePackage(List<int> selectedPipes)
+        {
+            if (selectedPipes == null || selectedPipes.Count < 2)
+            {
+                // Можно вернуть ошибку или перенаправить на страницу с предупреждением
+                return RedirectToAction("Index");
+            }
 
+            return RedirectToAction("Create", "Packages", new { selectedPipes });
+        }
     }
 }

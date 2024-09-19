@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using PipeManagmentApp.Data.Interfaces;
 using PipeManagmentApp.Data.Models;
 using PipeManagmentApp.ViewModels;
@@ -27,24 +28,37 @@ namespace PipeManagmentApp.Controllers
             return View(packageListViewModel);
         }
 
-        //[Route("Packages/Details/{id}")]
-        //public ViewResult Details(int id)
+        //public IActionResult Create(List<int> selectedPipes)
         //{
-        //    var package = _allPackages.AllPackages.FirstOrDefault(p => p.id == id);
-
-        //    if (package == null)
+        //    if (selectedPipes == null || selectedPipes.Count < 2)
         //    {
-        //        return View("NotFound");
+        //        return RedirectToAction("Index", "Pipes"); // Или другой подходящий маршрут
         //    }
 
-        //    var packageDetailsViewModel = new PackageDetailsViewModel
+    
+        //    var model = new Package
         //    {
-        //        Package = package,
-        //        PipesInPackage = package.pipes
+
+        //        pipes = pipes
         //    };
 
-        //    ViewBag.Title = $"Детали пакета №{package.packageNumber}";
-        //    return View(packageDetailsViewModel);
+        //    return View(model);
+        //}
+
+        //[HttpPost]
+        //public IActionResult Create(Package Package)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        _context.PipePackages.Add(pipePackage);
+        //        foreach (var pipe in pipePackage.Pipes)
+        //        {
+        //            pipe.PackageId = pipePackage.Id;
+        //        }
+        //        _context.SaveChanges();
+        //        return RedirectToAction("Index", "Pipes");
+        //    }
+        //    return View(pipePackage);
         //}
     }
 }

@@ -29,7 +29,7 @@
     </form>
 </div>
 
-
+<form id="pipeSelectionForm" method="post" asp-action="CreatePackage">
 <div class="row">
     @foreach (var pipe in Model.allPipes)
     {
@@ -38,6 +38,7 @@
                 <div class="card-header @(pipe.quality == "Брак" ? "text-danger" : "")">
                     Труба № @pipe.number
                 </div>
+          
                 <div class="card-body">
                     <h5 class="card-title">Марка стали: @pipe.steelGrade</h5>
                     <p class="card-text">
@@ -55,9 +56,19 @@
                     {
                         <span class="text-success">Годная труба</span>
                     }
-                    <a href="@Url.Action("Edit", "Pipes", new { id = pipe.id })" class="btn btn-warning btn-sm">Редактировать</a>
-                    <a href="@Url.Action("Delete", "Pipes", new { id = pipe.id })" class="btn btn-danger btn-sm">Удалить</a>
-
+                    @if (pipe.packageId.HasValue)
+                    {
+                        <!-- Труба в пакете, кнопки неактивны -->
+                        <a href="#" class="btn btn-warning btn-sm disabled">Редактировать</a>
+                        <a href="#" class="btn btn-danger btn-sm disabled">Удалить</a>
+                    }
+                    else
+                    {
+                        <!-- Труба не в пакете, кнопки активны -->
+                        <a href="@Url.Action("Edit", "Pipes", new { id = pipe.id })" class="btn btn-warning btn-sm">Редактировать</a>
+                        <a href="@Url.Action("Delete", "Pipes", new { id = pipe.id })" class="btn btn-danger btn-sm">Удалить</a>
+                    }
+                    <input type="checkbox" name="selectedPipes" value="@pipe.id" />
                 </div>
             </div>
         </div>
@@ -86,3 +97,20 @@
         </div>
     </div>
 </div>
+<button type="submit" id="createPackageButton" class="btn btn-primary" style="display: none;">Создать пакет</button>
+</form>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const checkboxes = document.querySelectorAll('input[name="selectedPipes"]');
+        const button = document.getElementById('createPackageButton');
+
+        function updateButtonVisibility() {
+            const checkedCount = Array.from(checkboxes).filter(cb => cb.checked).length;
+            button.style.display = checkedCount >= 2 ? 'inline' : 'none';
+        }
+
+        checkboxes.forEach(cb => cb.addEventListener('change', updateButtonVisibility));
+        updateButtonVisibility();
+    });
+</script>
