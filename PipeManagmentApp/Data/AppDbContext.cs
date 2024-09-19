@@ -24,6 +24,13 @@ namespace PipeManagmentApp.Data
                 .HasMany(p => p.pipes)
                 .WithOne(p => p.package)
                 .HasForeignKey(p => p.packageId);
+
+            modelBuilder.Entity<Pipe>()
+            .HasKey(p => p.id);
+
+            modelBuilder.Entity<Pipe>()
+                .Property(p => p.id)
+                .ValueGeneratedOnAdd(); 
         }
 
         public DbSet<Pipe> Pipes { get; set; }

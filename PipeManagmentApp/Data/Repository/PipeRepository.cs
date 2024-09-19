@@ -20,14 +20,21 @@ namespace PipeManagmentApp.Data.Repository
         {
             if (pipe != null)
             {
+                var existingPipe = _appDbContext.Pipes.Any(p => p.id == pipe.id);
+                if (existingPipe)
+                {
+                    throw new InvalidOperationException("Запись с таким ID уже существует.");
+                }
+
                 _appDbContext.Pipes.Add(pipe);
                 _appDbContext.SaveChanges();
             }
         }
 
         // Удаление трубы
-        public void deletePipe(Pipe pipe)
+        public void deletePipe(int id)
         {
+            var pipe = _appDbContext.Pipes.Find(id);
             if (pipe != null)
             {
                 _appDbContext.Pipes.Remove(pipe);

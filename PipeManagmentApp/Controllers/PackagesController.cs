@@ -14,7 +14,7 @@ namespace PipeManagmentApp.Controllers
         }
 
     
-        public ViewResult List()
+        public ViewResult Index()
         {
             IEnumerable<Package> packages = _allPackages.AllPackages.OrderBy(p => p.id);
 

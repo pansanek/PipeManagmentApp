@@ -4,9 +4,10 @@
 
 <p>Вы уверены, что хотите удалить трубу № @Model.number?</p>
 
-<form asp-action="DeleteConfirmed">
+<form asp-action="DeleteConfirmed" method="post" class="form-horizontal">
+    <input type="hidden" name="id" value="@Model.id" />
     <div class="form-group">
         <input type="submit" value="Удалить" class="btn btn-danger" />
-        <a asp-action="List" class="btn btn-secondary">Отмена</a>
+        <a asp-action="Index" class="btn btn-secondary">Отмена</a>
     </div>
 </form>

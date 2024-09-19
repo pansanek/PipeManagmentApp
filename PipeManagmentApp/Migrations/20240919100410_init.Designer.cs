@@ -12,7 +12,7 @@ using PipeManagmentApp.Data;
 namespace PipeManagmentApp.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240919074910_init")]
+    [Migration("20240919100410_init")]
     partial class init
     {
         /// <inheritdoc />

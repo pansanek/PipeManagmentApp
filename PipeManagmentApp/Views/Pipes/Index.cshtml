@@ -1,6 +1,34 @@
 ﻿@model PipesListViewModel
 
 <h1>Все трубы</h1>
+<!-- Кнопка для показа/скрытия формы фильтрации -->
+<button class="btn btn-secondary mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#filterForm" aria-expanded="false" aria-controls="filterForm">
+    Фильтр труб
+</button>
+
+<!-- Форма фильтрации, которая будет скрыта по умолчанию -->
+<div class="collapse" id="filterForm">
+    <form method="get" class="form-inline mb-3">
+        <div class="form-group" style="margin-bottom: 20px;">
+            <label for="number" class="mr-2">№ Трубы:</label>
+            <input type="text" name="number" class="form-control" value="@ViewBag.FilterNumber" />
+        </div>
+        <div class="form-group" style="margin-bottom: 20px;">
+            <label for="quality" class="mr-2">Качество:</label>
+            <select name="quality" class="form-control">
+                <option value="">Все</option>
+                <option value="Годная">Годная</option>
+                <option value="Брак">Брак</option>
+            </select>
+        </div>
+        <div class="form-group" style="margin-bottom: 20px;">
+            <label for="steelGrade" class="mr-2">Марка стали:</label>
+            <input type="text" name="steelGrade" class="form-control" value="@ViewBag.FilterSteelGrade" />
+        </div>
+        <button type="submit" class="btn btn-primary" style="margin-bottom: 20px;">Применить фильтр</button>
+    </form>
+</div>
+
 
 <div class="row">
     @foreach (var pipe in Model.allPipes)

@@ -6,7 +6,7 @@ namespace PipeManagmentApp.Data.Interfaces
         IEnumerable<Pipe> AllPipes { get; }
         void createPipe(Pipe pipe);
         void editPipe(Pipe pipe);
-        void deletePipe(Pipe pipe);
+        void deletePipe(int id);
         Pipe getPipeObj(int pipeId);
     }
 }

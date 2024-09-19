@@ -28,8 +28,9 @@ namespace PipeManagmentApp.Data.Mocks
             }
         }
 
-        public void deletePipe(Pipe pipe)
+        public void deletePipe(int id)
         {
+            var pipe = _allPipes[id];
             if (pipe != null && _allPipes.Contains(pipe))
             {
                 _allPipes.Remove(pipe);
