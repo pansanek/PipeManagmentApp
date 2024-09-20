@@ -1,11 +1,11 @@
-﻿@model Pipe
+﻿@model DeletePipeViewModel
 
 <h1>Удалить трубу</h1>
 
-<p>Вы уверены, что хотите удалить трубу № @Model.number?</p>
+<p>Вы уверены, что хотите удалить трубу № @Model.Pipe.number?</p>
 
 <form asp-action="DeleteConfirmed" method="post" class="form-horizontal">
-    <input type="hidden" name="id" value="@Model.id" />
+    <input type="hidden" name="id" value="@Model.Pipe.id" />
     <div class="form-group">
         <input type="submit" value="Удалить" class="btn btn-danger" />
         <a asp-action="Index" class="btn btn-secondary">Отмена</a>

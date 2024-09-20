@@ -2,7 +2,7 @@
 
 namespace PipeManagmentApp.Data.Interfaces
 {
-    public interface IAllBundles
+    public interface IBundleRepository
     {
         IEnumerable<Bundle> AllBundles { get; }
         void createBundle(Bundle bundle);

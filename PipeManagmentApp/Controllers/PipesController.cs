@@ -2,15 +2,16 @@
 using PipeManagmentApp.Data.Interfaces;
 using PipeManagmentApp.Data.Models;
 using PipeManagmentApp.ViewModels;
+using System.Reflection.Metadata;
 namespace PipeManagmentApp.Controllers
 {
     public class PipesController : Controller
     {
-        private readonly IAllPipes _allPipes;
+        private readonly IPipeService _pipeService;
 
-        public PipesController(IAllPipes iAllPipes)
+        public PipesController(IPipeService pipeService)
         {
-            _allPipes = iAllPipes;
+            _pipeService = pipeService;
         }
 
   
@@ -18,7 +19,7 @@ namespace PipeManagmentApp.Controllers
         public ViewResult Index(string number = null, string quality = null, string steelGrade = null)
         {
             // Получаем все трубы
-            IEnumerable<Pipe> pipes = _allPipes.AllPipes;
+            IEnumerable<Pipe> pipes = _pipeService.GetAllPipes();
 
             // Применяем фильтры
             if (!string.IsNullOrEmpty(number))
@@ -49,20 +50,17 @@ namespace PipeManagmentApp.Controllers
             // Формируем модель для передачи в представление
             var pipeListViewModel = new PipesListViewModel
             {
-                allPipes = pipes,
-                totalPipes = totalPipes,
-                goodPipes = goodPipes,
-                defectivePipes = defectivePipes,
-                totalWeight = totalWeight
+                AllPipes = pipes,
+                TotalPipes = totalPipes,
+                GoodPipes = goodPipes,
+                DefectivePipes = defectivePipes,
+                TotalWeight = totalWeight,
+                FilterNumber = number,
+                FilterQuality = quality,
+                FilterSteelGrade = steelGrade,
+                Title = "Список всех труб",
+                IsFilterApplied = !string.IsNullOrEmpty(number) || !string.IsNullOrEmpty(quality) || !string.IsNullOrEmpty(steelGrade)
             };
-
-            // Передача значений фильтров во ViewBag для отображения в форме
-            ViewBag.FilterNumber = number;
-            ViewBag.FilterQuality = quality;
-            ViewBag.FilterSteelGrade = steelGrade;
-
-            ViewBag.Title = "Список всех труб";
-            ViewBag.IsFilterApplied = !string.IsNullOrEmpty(number) || !string.IsNullOrEmpty(quality) || !string.IsNullOrEmpty(steelGrade);
 
             return View(pipeListViewModel);
         }
@@ -71,7 +69,7 @@ namespace PipeManagmentApp.Controllers
         [HttpGet]
         public JsonResult GetPipeById(int id)
         {
-            var pipe = _allPipes.getPipeObj(id);
+            var pipe = _pipeService.GetPipeById(id);
             if (pipe == null)
             {
                 return Json(new { error = "Труба не найдена" });
@@ -91,25 +89,32 @@ namespace PipeManagmentApp.Controllers
             if (ModelState.IsValid) 
             {
                 
-                _allPipes.createPipe(pipe); 
+                _pipeService.CreatePipe(pipe); 
 
                 return RedirectToAction("Index", "Pipes"); 
             }
-
+            var createPipeViewModel = new CreatePipeViewModel
+            {
+                Pipe = pipe
+            };
             ViewBag.Title = "Добавление трубы";
-            return View(pipe); // Если данные некорректны, возвращаем форму с ошибками
+            return View(createPipeViewModel); // Если данные некорректны, возвращаем форму с ошибками
         }
 
         // Редактирование существующей трубы
         public IActionResult Edit(int id)
         {
             ViewBag.Title = "Редактирование трубы";
-            var pipe = _allPipes.getPipeObj(id);
+            var pipe = _pipeService.GetPipeById(id);
             if (pipe == null)
             {
                 return NotFound();
             }
-            return View(pipe);
+            var editPipeViewModel = new EditPipeViewModel
+            {
+                Pipe = pipe
+            };
+            return View(editPipeViewModel);
         }
 
         [HttpPost]
@@ -117,35 +122,44 @@ namespace PipeManagmentApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                _allPipes.editPipe(pipe);
+                _pipeService.EditPipe(pipe);
                 return RedirectToAction("Index", "Pipes");
             }
             ViewBag.Title = "Редактирование трубы";
-            return View(pipe); // Если данные некорректны, возвращаем форму с ошибками
+            var editPipeViewModel = new EditPipeViewModel
+            {
+                Pipe = pipe
+            };
+            return View(editPipeViewModel); 
         }
 
         // Удаление трубы
         public IActionResult Delete(int id)
         {
             ViewBag.Title = "Удаление трубы";
-            var pipe = _allPipes.getPipeObj(id);
+            var pipe = _pipeService.GetPipeById(id);
             if (pipe == null)
             {
                 return NotFound();
             }
-            return View(pipe);
+
+            var deletePipeViewModel = new DeletePipeViewModel
+            {
+                Pipe = pipe
+            };
+            return View(deletePipeViewModel);
         }
 
         [HttpPost]
         public IActionResult DeleteConfirmed(int id)
         {
-            var pipe = _allPipes.getPipeObj(id);
+            var pipe = _pipeService.GetPipeById(id);
             if (pipe == null)
             {
                 return RedirectToAction("Index", "Pipes"); 
             }
 
-            _allPipes.deletePipe(pipe.id);
+            _pipeService.DeletePipe(pipe.id);
 
            
             return RedirectToAction("Index", "Pipes"); 

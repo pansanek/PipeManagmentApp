@@ -4,7 +4,11 @@ namespace PipeManagmentApp.ViewModels
 {
     public class BundleListViewModel
     {
-        public IEnumerable<Bundle> allBundles { get; set; }
-        
+        public IEnumerable<Bundle> AllBundles { get; set; }
+        public string Title { get; set; }
+        public bool IsFilterApplied { get; set; }
+        public DateTime? DateFrom { get; set; }
+        public DateTime? DateTo { get; set; }
+
     }
 }

@@ -9,6 +9,7 @@ using PipeManagmentApp.Data;
 using PipeManagmentApp.Data.Interfaces;
 using PipeManagmentApp.Data.Mocks;
 using PipeManagmentApp.Data.Repository;
+using PipeManagmentApp.Service;
 
 namespace PipeManagmentApp
 {
@@ -26,8 +27,10 @@ namespace PipeManagmentApp
 
             services.AddDbContext<AppDbContext>(options =>
             options.UseNpgsql(_configuration.GetConnectionString("WebApiDatabase")));
-            services.AddTransient<IAllPipes, PipeRepository>();
-            services.AddTransient<IAllBundles, BundleRepository>();
+            services.AddTransient<IPipeRepository, PipeRepository>();
+            services.AddTransient<IBundleRepository, BundleRepository>();
+            services.AddTransient<IPipeService, PipeService>();
+            services.AddTransient<IBundleService, BundleService>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddMemoryCache();
             services.AddSession();

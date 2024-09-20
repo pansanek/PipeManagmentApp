@@ -6,27 +6,26 @@
 <button class="btn btn-secondary mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#filterForm" aria-expanded="false" aria-controls="filterForm">
     Фильтр пакетов
 </button>
-@if (ViewBag.IsFilterApplied)
+@if (Model.IsFilterApplied)
 {
     <a href="@Url.Action("Index", "Bundles")" class="btn btn-secondary" style="margin-bottom: 20px;">Отменить фильтр</a>
 }
-<!-- Форма фильтрации, скрытая по умолчанию -->
 <div class="collapse" id="filterForm">
     <form method="get" class="form-inline mb-3">
         <div class="form-group" style="margin-bottom: 20px;">
             <label for="dateFrom" class="mr-2">Дата от:</label>
-            <input type="date" name="dateFrom" class="form-control" value="@ViewBag.FilterDateFrom" />
+            <input type="date" name="dateFrom" class="form-control" value="@Model.DateFrom" />
         </div>
         <div class="form-group" style="margin-bottom: 20px;">
             <label for="dateTo" class="mr-2">Дата до:</label>
-            <input type="date" name="dateTo" class="form-control" value="@ViewBag.FilterDateTo" />
+            <input type="date" name="dateTo" class="form-control" value="@Model.DateTo" />
         </div>
         <button type="submit" class="btn btn-primary" style="margin-bottom: 20px;">Применить фильтр</button>
     </form>
 </div>
 
 <div class="row">
-    @foreach (var bundle in Model.allBundles)
+    @foreach (var bundle in Model.AllBundles)
     {
         <div class="col-md-6 mb-4">
             <div class="card border-primary">
@@ -52,7 +51,6 @@
                         <strong>Общий вес пакета:</strong> @bundle.pipes.Sum(p => p.weight) кг
                     </span>
 
-                    <!-- Действия с пакетом -->
                     <a href="@Url.Action("Edit", "Bundles", new { id = bundle.id })" class="btn btn-warning btn-sm me-2">Редактировать</a>
                     <a href="@Url.Action("Delete", "Bundles", new { id = bundle.id })" class="btn btn-danger btn-sm">Удалить</a>
                 </div>

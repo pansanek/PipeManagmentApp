@@ -3,24 +3,22 @@ using Microsoft.EntityFrameworkCore;
 using PipeManagmentApp.Data.Interfaces;
 using PipeManagmentApp.Data.Models;
 using PipeManagmentApp.ViewModels;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 namespace PipeManagmentApp.Controllers
 {
     public class BundlesController : Controller
     {
-        private readonly IAllBundles _allBundles;
-        private readonly IAllPipes _allPipes;
-
-        public BundlesController(IAllBundles allBundles,IAllPipes allPipes)
+        private readonly IPipeService _pipeService;
+        private readonly IBundleService _bundleService;
+        public BundlesController(IBundleService bundleService, IPipeService pipeService)
         {
-            _allBundles = allBundles;
-            _allPipes = allPipes;
+            _pipeService = pipeService;
+            _bundleService = bundleService;
         }
 
     
         public ViewResult Index(DateTime? dateFrom = null, DateTime? dateTo = null)
         {
-            IEnumerable<Bundle> bundles = _allBundles.AllBundles.OrderBy(p => p.id);
+            IEnumerable<Bundle> bundles = _bundleService.GetAllBundles().OrderBy(p => p.id);
 
             if (dateFrom.HasValue && dateTo.HasValue)
             {
@@ -38,34 +36,41 @@ namespace PipeManagmentApp.Controllers
             }
             var bundleListViewModel = new BundleListViewModel
             {
-                allBundles = bundles
+                AllBundles = bundles.ToList(),
+                Title = "Список пакетов",
+                IsFilterApplied = dateFrom.HasValue || dateTo.HasValue,
+                DateFrom = dateFrom,
+                DateTo = dateTo
             };
-
-            ViewBag.Title = "Список пакетов";
-            ViewBag.IsFilterApplied = !(dateFrom ==null) || !(dateTo == null);
             return View(bundleListViewModel);
         }
         public IActionResult Delete(int id)
         {
-            ViewBag.Title = "Удаление трубы";
-            var bundle = _allBundles.getBundleObj(id);
+            var bundle = _bundleService.GetBundleById(id);
             if (bundle == null)
             {
                 return NotFound();
             }
-            return View(bundle);
+
+            var deleteBundleViewModel = new DeleteBundleViewModel
+            {
+                Bundle = bundle
+            };
+
+            ViewBag.Title = "Удаление пакета";
+            return View(deleteBundleViewModel);
         }
 
         [HttpPost]
         public IActionResult DeleteConfirmed(int id)
         {
-            var bundle = _allBundles.getBundleObj(id);
+            var bundle = _bundleService.GetBundleById(id);
             if (bundle == null)
             {
                 return RedirectToAction("Index", "Bundles");
             }
 
-            _allBundles.deleteBundle(bundle.id);
+            _bundleService.DeleteBundle(bundle.id);
 
 
             return RedirectToAction("Index", "Bundles");
@@ -73,26 +78,28 @@ namespace PipeManagmentApp.Controllers
 
         public IActionResult Edit(int id)
         {
-            ViewBag.Title = "Редактирование пакета";
-            var bundle = _allBundles.getBundleObj(id);
+            var bundle = _bundleService.GetBundleById(id);
             if (bundle == null)
             {
                 return NotFound();
             }
 
-            // Получение всех труб, которые не включены в текущий пакет
-            var allPipes = _allPipes.AllPipes
-                .Where(p => p.bundleId == null)
-                   .ToList();
-            ViewBag.AvailablePipes = allPipes;
+            var editBundleViewModel = new EditBundleViewModel
+            {
+                Bundle = bundle,
+                AvailablePipes = _pipeService.GetAllPipes().Where(p => p.bundleId == null).ToList(),
+                RemovedPipes = new List<int>(),
+                AddedPipes = new List<int>()
+            };
 
-            return View(bundle);
+            ViewBag.Title = "Редактирование пакета";
+            return View(editBundleViewModel);
         }
 
         [HttpPost]
         public IActionResult Edit(int id, string removedPipes = null, string addedPipes = null)
         {
-            var bundle = _allBundles.getBundleObj(id);
+            var bundle = _bundleService.GetBundleById(id);
             if (ModelState.IsValid)
             {
                 if (bundle != null)
@@ -103,7 +110,7 @@ namespace PipeManagmentApp.Controllers
                         var removedPipeIds = removedPipes.Split(',').Select(int.Parse);
                         foreach (var pipeId in removedPipeIds)
                         {
-                            _allBundles.deletePipeFromBundle(bundle, pipeId);
+                            _bundleService.RemovePipeFromBundle(bundle, pipeId);
                         }
                     }
 
@@ -113,12 +120,12 @@ namespace PipeManagmentApp.Controllers
                         var addedPipeIds = addedPipes.Split(',').Select(int.Parse);
                         foreach (var pipeId in addedPipeIds)
                         {
-                            _allBundles.addPipeToBundle(bundle, pipeId);
+                            _bundleService.AddPipeToBundle(bundle, pipeId);
                         }
                     }
 
                     // Сохранение изменений
-                    _allBundles.editBundle(bundle);
+                    _bundleService.EditBundle(bundle);
 
                     return RedirectToAction("Index", "Bundles");
                 }
@@ -127,91 +134,69 @@ namespace PipeManagmentApp.Controllers
             {
                 return NotFound();
             }
-            var allPipes = _allPipes.AllPipes
+            var pipeService = _pipeService.GetAllPipes()
                 .Where(p => p.bundleId == null)
                    .ToList();
+           
+
+            var editBundleViewModel = new EditBundleViewModel
+            {
+                Bundle = bundle,
+                AvailablePipes = _pipeService.GetAllPipes().Where(p => p.bundleId == null).ToList(),
+                RemovedPipes = new List<int>(),
+                AddedPipes = new List<int>()
+            };
+
             ViewBag.Title = "Редактирование пакета";
-            ViewBag.AvailablePipes = allPipes;
-            return View(bundle);
+            return View(editBundleViewModel);
         }
         public IActionResult Create(string selectedPipes = null)
         {
+            var createBundleViewModel = new CreateBundleViewModel
+            {
+                Bundle = new Bundle(),
+                AvailablePipes = _pipeService.GetAllPipes().Where(p => p.bundleId == null).ToList(),
+                AddedPipes = string.IsNullOrEmpty(selectedPipes) ? new List<int>() : selectedPipes.Split(',').Select(int.Parse).ToList()
+            };
+
             ViewBag.Title = "Создание пакета";
-
-            // Получение всех труб, которые не находятся в пакетах
-            var allPipes = _allPipes.AllPipes
-                .Where(p => p.bundleId == null)
-                .ToList();
-
-            ViewBag.AvailablePipes = allPipes;
-
-            ViewBag.AddedPipes = string.IsNullOrEmpty(selectedPipes)
-                ? new List<int>()
-                : selectedPipes.Split(',').Select(int.Parse).ToList();
-            return View();
+            return View(createBundleViewModel);
         }
         [HttpPost]
         public IActionResult Create(Bundle bundle, string addedPipes = null)
         {
             if (ModelState.IsValid)
             {
-                // Сохранение нового пакета
-                _allBundles.createBundle(bundle); // Метод для добавления нового пакета
+                
+                _bundleService.CreateBundle(bundle); 
 
-                // Обработка добавленных труб
                 if (!string.IsNullOrEmpty(addedPipes))
                 {
                     var addedPipeIds = addedPipes.Split(',').Select(int.Parse);
                     foreach (var pipeId in addedPipeIds)
                     {
-                        _allBundles.addPipeToBundle(bundle, pipeId); // Добавляем трубы в пакет
+                        _bundleService.AddPipeToBundle(bundle, pipeId); 
                     }
                 }
 
                 return RedirectToAction("Index", "Bundles");
             }
 
-            // Если валидация не прошла, нужно заново загрузить трубы, которые не находятся в пакетах
-            var allPipes = _allPipes.AllPipes
+            var pipeService = _pipeService.GetAllPipes()
                 .Where(p => p.bundleId == null)
                 .ToList();
 
+            var createBundleViewModel = new CreateBundleViewModel
+            {
+                Bundle = new Bundle(),
+                AvailablePipes = _pipeService.GetAllPipes().Where(p => p.bundleId == null).ToList(),
+                AddedPipes = string.IsNullOrEmpty(addedPipes) ? new List<int>() : addedPipes.Split(',').Select(int.Parse).ToList()
+            };
+
             ViewBag.Title = "Создание пакета";
-            ViewBag.AvailablePipes = allPipes;
 
-            return View(bundle);
+            return View(createBundleViewModel);
         }
-        //public IActionResult Create(List<int> selectedPipes)
-        //{
-        //    if (selectedPipes == null || selectedPipes.Count < 2)
-        //    {
-        //        return RedirectToAction("Index", "Pipes"); // Или другой подходящий маршрут
-        //    }
-
-
-        //    var model = new Bundle
-        //    {
-
-        //        pipes = pipes
-        //    };
-
-        //    return View(model);
-        //}
-
-        //[HttpPost]
-        //public IActionResult Create(Bundle Bundle)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        _context.PipeBundles.Add(pipeBundle);
-        //        foreach (var pipe in pipeBundle.Pipes)
-        //        {
-        //            pipe.BundleId = pipeBundle.Id;
-        //        }
-        //        _context.SaveChanges();
-        //        return RedirectToAction("Index", "Pipes");
-        //    }
-        //    return View(pipeBundle);
-        //}
+       
     }
 }

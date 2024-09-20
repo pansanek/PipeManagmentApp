@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace PipeManagmentApp.Data.Repository
 {
-    public class BundleRepository : IAllBundles
+    public class BundleRepository : IBundleRepository
     {
         private readonly AppDbContext _appDbContext;
 

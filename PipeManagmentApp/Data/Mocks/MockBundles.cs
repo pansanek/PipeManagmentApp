@@ -3,7 +3,7 @@ using PipeManagmentApp.Data.Models;
 
 namespace PipeManagmentApp.Data.Mocks
 {
-    public class MockBundles : IAllBundles
+    public class MockBundles : IBundleRepository
     {
         private List<Bundle> _allBundle;
 

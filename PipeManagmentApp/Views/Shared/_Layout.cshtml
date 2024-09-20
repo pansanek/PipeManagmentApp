@@ -2,7 +2,7 @@
     <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.Title</title>
     <link href="~/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-    <link href="~/css/style.css" rel="stylesheet" type="text/css" />
+    
 </head>
 <body>
     <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
@@ -31,5 +31,6 @@
         @RenderBody()
     </div>
     <script src="~/js/bootstrap.min.js"></script>
+    @RenderSection("Scripts", required: false)
 </body>
 </html>

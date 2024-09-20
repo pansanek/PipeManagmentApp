@@ -1,20 +1,22 @@
-﻿@model Bundle
-
+﻿@model CreateBundleViewModel
+@section Scripts {
+    <script src="~/js/bundle-create.js"></script>
+}
 <h1>@ViewBag.Title</h1>
 <form asp-action="Create" method="post">
     <div class="form-group" style="margin-bottom: 20px;">
-        <label asp-for="bundleNumber" class="control-label">№ Пакета</label>
+        <label asp-for="Bundle.bundleNumber" class="control-label">№ Пакета</label>
         <div class="col-md-5">
-            <input asp-for="bundleNumber" class="form-control" />
-            <span asp-validation-for="bundleNumber" class="text-danger"></span>
+            <input asp-for="Bundle.bundleNumber" class="form-control" />
+            <span asp-validation-for="Bundle.bundleNumber" class="text-danger"></span>
         </div>
     </div>
 
     <div class="form-group" style="margin-bottom: 20px;">
-        <label asp-for="bundleDate" class="control-label">Дата создания пакета</label>
+        <label asp-for="Bundle.bundleDate" class="control-label">Дата создания пакета</label>
         <div class="col-md-5">
-            <input asp-for="bundleDate" class="form-control" type="datetime-local" />
-            <span asp-validation-for="bundleDate" class="text-danger"></span>
+            <input asp-for="Bundle.bundleDate" class="form-control" type="datetime-local" />
+            <span asp-validation-for="Bundle.bundleDate" class="text-danger"></span>
         </div>
     </div>
 
@@ -22,7 +24,7 @@
         <label class="control-label">Добавить трубы из существующих</label>
         <div class="col-md-5">
             <ul id="available-pipes">
-                @foreach (var pipe in ViewBag.AvailablePipes)
+                @foreach (var pipe in Model.AvailablePipes)
                 {
                     <li>
                         <input type="checkbox" name="selectedPipes" value="@pipe.id" />
@@ -98,8 +100,8 @@
     }
 
     document.addEventListener("DOMContentLoaded", function () {
-        // Получаем добавленные трубы из ViewBag
-        const addedPipes = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.AddedPipes));
+        // Получаем добавленные трубы из Model
+        const addedPipes = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.AddedPipes));
 
         // Добавляем трубы в pipe-list
         addedPipes.forEach(pipeId => {

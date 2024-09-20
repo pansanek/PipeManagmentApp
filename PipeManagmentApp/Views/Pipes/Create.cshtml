@@ -1,28 +1,28 @@
-﻿@model Pipe
+﻿@model CreatePipeViewModel
 
 <h1>@ViewBag.Title</h1>
 <form asp-action="Create" method="post" class="form-horizontal">
     <div class="form-group" style="margin-bottom: 20px;">
-        <label asp-for="number"></label>
+        <label asp-for="Pipe.number"></label>
         <div class="col-md-5">
-            <input asp-for="number" class="form-control"/>
-            <span asp-validation-for="number" class="text-danger"></span>
+            <input asp-for="Pipe.number" class="form-control" />
+            <span asp-validation-for="Pipe.number" class="text-danger"></span>
         </div>
     </div>
     <div class="form-group" style="margin-bottom: 20px;">
-        <label asp-for="quality"></label>
+        <label asp-for="Pipe.quality"></label>
         <div class="col-md-5">
-            <select asp-for="quality" class="form-control">
+            <select asp-for="Pipe.quality" class="form-control">
                 <option value="Брак">Брак</option>
                 <option value="Годное">Годное</option>
             </select>
-            <span asp-validation-for="quality" class="text-danger"></span>
+            <span asp-validation-for="Pipe.quality" class="text-danger"></span>
         </div>
     </div>
     <div class="form-group" style="margin-bottom: 20px;">
-        <label asp-for="steelGrade"></label>
+        <label asp-for="Pipe.steelGrade"></label>
         <div class="col-md-5">
-            <select asp-for="steelGrade" class="form-control">
+            <select asp-for="Pipe.steelGrade" class="form-control">
                 <option value="Ст">Ст — обыкновенная нелегированная сталь</option>
                 <option value="А">А — сталь с гарантируемыми механическими свойствами</option>
                 <option value="Б">Б — сплав гарантированного состава</option>
@@ -33,23 +33,23 @@
                 <option value="У">У — углеродистая инструментальная сталь</option>
                 <option value="Э">Э — электротехническая сталь</option>
             </select>
-            <span asp-validation-for="steelGrade" class="text-danger"></span>
+            <span asp-validation-for="Pipe.steelGrade" class="text-danger"></span>
         </div>
     </div>
 
     <div class="form-group" style="margin-bottom: 20px;">
-        <label asp-for="dimensions"></label>
+        <label asp-for="Pipe.dimensions"></label>
         <div class="col-md-5">
-            <input asp-for="dimensions" pattern="\d+x\d+" class="form-control" />
-            <span asp-validation-for="dimensions" class="text-danger"></span>
+            <input asp-for="Pipe.dimensions" pattern="\d+x\d+" class="form-control" />
+            <span asp-validation-for="Pipe.dimensions" class="text-danger"></span>
         </div>
     </div>
 
     <div class="form-group" style="margin-bottom: 20px;">
-        <label asp-for="weight"></label>
+        <label asp-for="Pipe.weight"></label>
         <div class="col-md-5">
-            <input asp-for="weight" class="form-control" />
-            <span asp-validation-for="weight" class="text-danger"></span>
+            <input asp-for="Pipe.weight" class="form-control" />
+            <span asp-validation-for="Pipe.weight" class="text-danger"></span>
         </div>
     </div>
     <div class="form-group" style="margin-bottom: 20px;">

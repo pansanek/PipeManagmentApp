@@ -1,20 +1,20 @@
 ﻿@model PipesListViewModel
-
+@section Scripts {
+    <script src="~/js/bundle-from-pipes.js"></script>
+}
 <h1>Все трубы</h1>
-<!-- Кнопка для показа/скрытия формы фильтрации -->
 <button class="btn btn-secondary mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#filterForm" aria-expanded="false" aria-controls="filterForm">
     Фильтр труб
 </button>
-@if (ViewBag.IsFilterApplied)
+@if (Model.IsFilterApplied)
 {
     <a href="@Url.Action("Index", "Pipes")" class="btn btn-secondary" style="margin-bottom: 20px;">Отменить фильтр</a>
 }
-<!-- Форма фильтрации, которая будет скрыта по умолчанию -->
 <div class="collapse" id="filterForm">
     <form method="get" class="form-inline mb-3">
         <div class="form-group" style="margin-bottom: 20px;">
             <label for="number" class="mr-2">№ Трубы:</label>
-            <input type="text" name="number" class="form-control" value="@ViewBag.FilterNumber" />
+            <input type="text" name="number" class="form-control" value="@Model.FilterNumber" />
         </div>
         <div class="form-group" style="margin-bottom: 20px;">
             <label for="quality" class="mr-2">Качество:</label>
@@ -27,6 +27,7 @@
         <div class="form-group" style="margin-bottom: 20px;">
             <label for="steelGrade" class="mr-2">Марка стали:</label>
             <select name="steelGrade" class="form-control">
+                <option value="">Все</option>
                 <option value="Ст">Ст — обыкновенная нелегированная сталь</option>
                 <option value="А">А — сталь с гарантируемыми механическими свойствами</option>
                 <option value="Б">Б — сплав гарантированного состава</option>
@@ -44,7 +45,7 @@
 
 <form id="pipeSelectionForm" method="post" asp-action="CreateBundle">
 <div class="row">
-    @foreach (var pipe in Model.allPipes)
+    @foreach (var pipe in Model.AllPipes)
     {
         <div class="col-md-4 mb-4">
             <div class="card @(pipe.quality == "Брак" ? "border-danger" : "border-primary")">
@@ -96,16 +97,16 @@
     <div class="container">
         <div class="row">
             <div class="col">
-                <strong>Общее количество труб:</strong> @Model.totalPipes
+                <strong>Общее количество труб:</strong> @Model.TotalPipes
             </div>
             <div class="col">
-                <strong>Годных труб:</strong> @Model.goodPipes
+                <strong>Годных труб:</strong> @Model.GoodPipes
             </div>
             <div class="col">
-                <strong>Бракованных труб:</strong> @Model.defectivePipes
+                <strong>Бракованных труб:</strong> @Model.DefectivePipes
             </div>
             <div class="col">
-                <strong>Общий вес:</strong> @Model.totalWeight кг
+                <strong>Общий вес:</strong> @Model.TotalWeight кг
             </div>
             <div class="col-md-12 text-right">
                 <a href="@Url.Action("Create", "Pipes")" class="btn btn-primary">Добавить трубу</a>
@@ -116,17 +117,3 @@
 <button type="submit" id="createPackageButton" class="btn btn-primary" style="display: none;">Создать пакет</button>
 </form>
 
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const checkboxes = document.querySelectorAll('input[name="selectedPipes"]');
-        const button = document.getElementById('createPackageButton');
-
-        function updateButtonVisibility() {
-            const checkedCount = Array.from(checkboxes).filter(cb => cb.checked).length;
-            button.style.display = checkedCount >= 2 ? 'inline' : 'none';
-        }
-
-        checkboxes.forEach(cb => cb.addEventListener('change', updateButtonVisibility));
-        updateButtonVisibility();
-    });
-</script>

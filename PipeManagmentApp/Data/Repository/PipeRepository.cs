@@ -3,7 +3,7 @@ using PipeManagmentApp.Data.Models;
 
 namespace PipeManagmentApp.Data.Repository
 {
-    public class PipeRepository : IAllPipes
+    public class PipeRepository : IPipeRepository
     {
         private readonly AppDbContext _appDbContext;
 
