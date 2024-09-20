@@ -44,7 +44,7 @@ namespace PipeManagmentApp.Controllers
             int totalPipes = pipes.Count();
             int goodPipes = pipes.Count(p => p.quality == "Годная");
             int defectivePipes = pipes.Count(p => p.quality == "Брак");
-            double totalWeight = pipes.Sum(p => p.weight);
+            double? totalWeight = pipes.Sum(p => p.weight);
 
             // Формируем модель для передачи в представление
             var pipeListViewModel = new PipesListViewModel
@@ -62,7 +62,7 @@ namespace PipeManagmentApp.Controllers
             ViewBag.FilterSteelGrade = steelGrade;
 
             ViewBag.Title = "Список всех труб";
-
+            ViewBag.IsFilterApplied = !string.IsNullOrEmpty(number) || !string.IsNullOrEmpty(quality) || !string.IsNullOrEmpty(steelGrade);
 
             return View(pipeListViewModel);
         }
@@ -161,7 +161,7 @@ namespace PipeManagmentApp.Controllers
                 return RedirectToAction("Index");
             }
 
-            return RedirectToAction("Create", "Bundles", new { selectedPipes });
+            return RedirectToAction("Create", "Bundles", new { selectedPipes = string.Join(",", selectedPipes) });
         }
     }
 }

@@ -70,6 +70,19 @@ namespace PipeManagmentApp.Data.Mocks
             }
         }
 
+        public void addPipeToBundle(Bundle bundle, int pipeId)
+        {
+            var existingBundle = _allBundle.FirstOrDefault(p => p.id == bundle.id);
+            if (existingBundle != null)
+            {
+                var pipeToAdd = existingBundle.pipes.FirstOrDefault(p => p.id == pipeId);
+                if (pipeToAdd != null)
+                {
+                    existingBundle.pipes.Add(pipeToAdd);
+                }
+            }
+        }
+
         public void editBundle(Bundle bundle)
         {
             var existingBundle = _allBundle.FirstOrDefault(p => p.id == bundle.id);

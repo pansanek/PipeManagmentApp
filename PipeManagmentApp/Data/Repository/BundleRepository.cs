@@ -53,6 +53,20 @@ namespace PipeManagmentApp.Data.Repository
                 }
             }
         }
+        // Удаление трубы из пакета
+        public void addPipeToBundle(Bundle bundle, int pipeId)
+        {
+            var existingBundle = _appDbContext.Bundles.Include(p => p.pipes).FirstOrDefault(p => p.id == bundle.id);
+            if (existingBundle != null)
+            {
+                var pipeToAdd = _appDbContext.Pipes.FirstOrDefault(p => p.id == pipeId);
+                if (pipeToAdd != null)
+                {
+                    existingBundle.pipes.Add(pipeToAdd);
+                    _appDbContext.SaveChanges();
+                }
+            }
+        }
 
         // Редактирование пакета
         public void editBundle(Bundle bundle)

@@ -5,7 +5,10 @@
 <button class="btn btn-secondary mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#filterForm" aria-expanded="false" aria-controls="filterForm">
     Фильтр труб
 </button>
-
+@if (ViewBag.IsFilterApplied)
+{
+    <a href="@Url.Action("Index", "Pipes")" class="btn btn-secondary" style="margin-bottom: 20px;">Отменить фильтр</a>
+}
 <!-- Форма фильтрации, которая будет скрыта по умолчанию -->
 <div class="collapse" id="filterForm">
     <form method="get" class="form-inline mb-3">
@@ -23,13 +26,23 @@
         </div>
         <div class="form-group" style="margin-bottom: 20px;">
             <label for="steelGrade" class="mr-2">Марка стали:</label>
-            <input type="text" name="steelGrade" class="form-control" value="@ViewBag.FilterSteelGrade" />
+            <select name="steelGrade" class="form-control">
+                <option value="Ст">Ст — обыкновенная нелегированная сталь</option>
+                <option value="А">А — сталь с гарантируемыми механическими свойствами</option>
+                <option value="Б">Б — сплав гарантированного состава</option>
+                <option value="В">В — сталь для сварных конструкций</option>
+                <option value="К">К — качественная углеродистая сталь</option>
+                <option value="Л">Л — литейная конструкционная сталь</option>
+                <option value="С">С — строительная сталь</option>
+                <option value="У">У — углеродистая инструментальная сталь</option>
+                <option value="Э">Э — электротехническая сталь</option>
+            </select>
         </div>
         <button type="submit" class="btn btn-primary" style="margin-bottom: 20px;">Применить фильтр</button>
     </form>
 </div>
 
-<form id="pipeSelectionForm" method="post" asp-action="CreatePackage">
+<form id="pipeSelectionForm" method="post" asp-action="CreateBundle">
 <div class="row">
     @foreach (var pipe in Model.allPipes)
     {
@@ -37,8 +50,10 @@
             <div class="card @(pipe.quality == "Брак" ? "border-danger" : "border-primary")">
                 <div class="card-header @(pipe.quality == "Брак" ? "text-danger" : "")">
                     Труба № @pipe.number
-                    <input type="checkbox" name="selectedPipes" value="@pipe.id" class="custom-checkbox position-absolute top-0 end-0 m-2" />
-                 
+                    @if (pipe.bundleId == null) 
+                    {
+                        <input type="checkbox" name="selectedPipes" value="@pipe.id" class="custom-checkbox position-absolute top-0 end-0 m-2" />
+                    }
                 </div>
           
                 <div class="card-body">

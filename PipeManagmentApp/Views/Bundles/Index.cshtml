@@ -6,7 +6,10 @@
 <button class="btn btn-secondary mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#filterForm" aria-expanded="false" aria-controls="filterForm">
     Фильтр пакетов
 </button>
-
+@if (ViewBag.IsFilterApplied)
+{
+    <a href="@Url.Action("Index", "Bundles")" class="btn btn-secondary" style="margin-bottom: 20px;">Отменить фильтр</a>
+}
 <!-- Форма фильтрации, скрытая по умолчанию -->
 <div class="collapse" id="filterForm">
     <form method="get" class="form-inline mb-3">

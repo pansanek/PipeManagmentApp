@@ -11,7 +11,7 @@ namespace PipeManagmentApp.Data
             {
                 context.Pipes.AddRange(
                 
-                    new Pipe { id = 4, number = 1004, quality = "Годная", steelGrade = "A1", dimensions = "100x200", weight = 30.0 }
+                    new Pipe { number = 1004, quality = "Годная", steelGrade = "A1", dimensions = "100x200", weight = 30.0 }
                 );
             }
 
@@ -26,8 +26,8 @@ namespace PipeManagmentApp.Data
                         bundleDate = DateTime.UtcNow.AddDays(-2),
                         pipes = new List<Pipe>
                         {
-                    new Pipe { id = 1, number = 1001, quality = "Годная", steelGrade = "A1", dimensions = "100x200", weight = 20.5 },
-                    new Pipe { id = 2, number = 1002, quality = "Брак", steelGrade = "A2", dimensions = "120x250", weight = 25.0 }
+                    new Pipe { number = 1001, quality = "Годная", steelGrade = "С", dimensions = "100x200", weight = 20.5 },
+                    new Pipe { number = 1002, quality = "Брак", steelGrade = "К", dimensions = "120x250", weight = 25.0 }
                         }
                     },
                     new Bundle
@@ -37,7 +37,7 @@ namespace PipeManagmentApp.Data
                         bundleDate = DateTime.UtcNow.AddDays(-1),
                         pipes = new List<Pipe>
                         {
-                    new Pipe { id = 3, number = 1003, quality = "Годная", steelGrade = "B1", dimensions = "150x300", weight = 30.0 }
+                    new Pipe { number = 1003, quality = "Годная", steelGrade = "Л", dimensions = "150x300", weight = 30.0 }
                         }
                     }
                 );

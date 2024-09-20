@@ -8,6 +8,6 @@ namespace PipeManagmentApp.ViewModels
         public int totalPipes { get; set; }
         public int goodPipes { get; set; }
         public int defectivePipes { get; set; }
-        public double totalWeight { get; set; }
+        public double? totalWeight { get; set; }
     }
 }

@@ -10,7 +10,7 @@ namespace PipeManagmentApp.Data.Models
         [Display(Name = "Введите номер трубы")]
         [Required(ErrorMessage = "Номер трубы обязателен")]
         [Range(1, int.MaxValue, ErrorMessage = "Номер трубы должен быть положительным числом")]
-        public int number { get; set; }
+        public int? number { get; set; }
         [Display(Name = "Введите качество трубы")]
         [Required(ErrorMessage = "Качество обязательно")]
         [RegularExpression("^(Брак|Годное)$", ErrorMessage = "Допустимые значения: Брак или Годное")]
@@ -27,7 +27,7 @@ namespace PipeManagmentApp.Data.Models
         [Display(Name = "Введите вес трубы")]
         [Required(ErrorMessage = "Вес обязателен")]
         [Range(0.01, double.MaxValue, ErrorMessage = "Вес должен быть положительным числом")]
-        public double weight { get; set; }
+        public double? weight { get; set; }
 
         public int? bundleId { get; set; }
         public Bundle? bundle { get; set; }

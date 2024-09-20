@@ -9,7 +9,7 @@ namespace PipeManagmentApp.Data.Interfaces
         void editBundle(Bundle bundle);
         void deleteBundle(int id);
         void deletePipeFromBundle(Bundle bundle, int pipeId);
-
+        void addPipeToBundle(Bundle bundle, int pipeId);
         Bundle getBundleObj(int bundleId);
     }
 }

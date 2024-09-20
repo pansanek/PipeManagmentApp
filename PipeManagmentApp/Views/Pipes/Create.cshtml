@@ -22,7 +22,17 @@
     <div class="form-group" style="margin-bottom: 20px;">
         <label asp-for="steelGrade"></label>
         <div class="col-md-5">
-            <input asp-for="steelGrade" class="form-control" />
+            <select asp-for="steelGrade" class="form-control">
+                <option value="Ст">Ст — обыкновенная нелегированная сталь</option>
+                <option value="А">А — сталь с гарантируемыми механическими свойствами</option>
+                <option value="Б">Б — сплав гарантированного состава</option>
+                <option value="В">В — сталь для сварных конструкций</option>
+                <option value="К">К — качественная углеродистая сталь</option>
+                <option value="Л">Л — литейная конструкционная сталь</option>
+                <option value="С">С — строительная сталь</option>
+                <option value="У">У — углеродистая инструментальная сталь</option>
+                <option value="Э">Э — электротехническая сталь</option>
+            </select>
             <span asp-validation-for="steelGrade" class="text-danger"></span>
         </div>
     </div>
