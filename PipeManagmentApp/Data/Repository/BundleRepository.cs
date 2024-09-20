@@ -53,7 +53,7 @@ namespace PipeManagmentApp.Data.Repository
                 }
             }
         }
-        // Удаление трубы из пакета
+        // Добавление трубы в пакет
         public void addPipeToBundle(Bundle bundle, int pipeId)
         {
             var existingBundle = _appDbContext.Bundles.Include(p => p.pipes).FirstOrDefault(p => p.id == bundle.id);
@@ -81,6 +81,7 @@ namespace PipeManagmentApp.Data.Repository
             }
         }
 
+        //Получение объекта пакета
         public Bundle getBundleObj(int bundleId)
         {
             return _appDbContext.Bundles.Include(p => p.pipes).FirstOrDefault(p => p.id == bundleId);

@@ -124,7 +124,7 @@ namespace PipeManagmentApp.Controllers
                         }
                     }
 
-                    // Сохранение изменений
+                 
                     _bundleService.EditBundle(bundle);
 
                     return RedirectToAction("Index", "Bundles");
